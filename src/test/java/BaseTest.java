@@ -1,3 +1,4 @@
+import api.UserApiClient;
 import driver.FactoryDriver;
 import org.junit.After;
 import org.junit.Before;
@@ -10,6 +11,7 @@ public class BaseTest {
     protected static final String NAME = "Влад";
     protected static final String PASSWORD = "123asd";
     protected static final String EMAIL = "vlad" + System.currentTimeMillis() % 10000 + "@yandex.ru";
+    protected String token;
 
     @Rule
     public FactoryDriver factoryDriver = new FactoryDriver();
@@ -23,9 +25,12 @@ public class BaseTest {
 
     @After
     public void tearDown() {
-        String token = getToken();
-        if (token != null) {
-            api.UserApiClient.deleteUser(token);
+        String currentToken = token;
+        if (currentToken == null) {
+            currentToken = getToken();
+        }
+        if (currentToken != null) {
+            UserApiClient.deleteUser(currentToken);
         }
     }
 

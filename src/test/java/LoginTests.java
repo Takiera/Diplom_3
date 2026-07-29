@@ -1,4 +1,6 @@
+import api.UserApiClient;
 import io.qameta.allure.Description;
+import model.UserModel;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,10 +10,8 @@ public class LoginTests extends BaseTest {
 
     @Before
     public void setUp() {
-            RegisterPage registerPage = new RegisterPage(driver);
-            registerPage.openPage();
-            registerPage.setRegisterData(NAME, EMAIL, PASSWORD);
-            registerPage.registerButtonClick();
+        UserModel user = new UserModel(EMAIL, PASSWORD, NAME);
+        token = UserApiClient.createUser(user);
     }
 
     @Test
